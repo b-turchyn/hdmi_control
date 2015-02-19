@@ -27,7 +27,7 @@ class Input < Connection
 end
 
 class HDMIControl < Sinatra::Base
-  set :environment, :development
+  set :environment, :production
   set :bind, '0.0.0.0'
   set :logging, true
 
