@@ -1,5 +1,8 @@
 # HDMI Controller
-Sinatra app to control Monoprice's 4x4 HDMI Matrix Mixer over HTTP
+
+Sinatra app to control Monoprice's 4x4 HDMI Matrix Mixer (PID# 5704) over HTTP
+
+This was tested on the [4X4 True Matrix HDMI® Powered Switch w/ Remote (Rev. 3.0)](http://www.monoprice.com/Product?p_id=5704). It should also work on the [4x2 True Matrix HDMI® Switch w/ Remote (Rev. 3.0)](http://www.monoprice.com/Product?p_id=5312), but has not been tested on it.
 
 # Installation
 
