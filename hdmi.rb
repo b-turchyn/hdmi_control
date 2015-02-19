@@ -4,45 +4,61 @@ require 'shotgun'
 require 'haml'
 require 'serialport'
 
+class Connection
+  @name = nil
+  @id = nil
+
+  def initialize(name, id)
+    @name, @id = name, id.to_s
+  end
+
+  def name
+    @name
+  end
+
+  def id
+    @id
+  end
+end
+
+class Output < Connection
+end
+class Input < Connection
+end
+
 class HDMIControl < Sinatra::Base
-  set :environment, :production
+  set :environment, :development
+  set :bind, '0.0.0.0'
+  set :logging, true
 
-  # Edit INPUT_NAMES and OUTPUT_NAMES to match your inputs and outputs
-  INPUT_NAMES = [
-    'HTPC',
-    'PS3',
-    'Wii U',
-    'Computer'
+  # Edit the inputs and outputs for what you have. Keep them in order please!
+  # Anything you don't need can be removed safely.
+  INPUTS = [
+    Input.new('HTPC', 1),
+    Input.new('PS3', 2),
+    Input.new('Wii U', 3),
+    Input.new('Computer', 4)
   ]
 
-  OUTPUT_NAMES = [
-    'Living Room',
-    'Bedroom',
-    'Basement',
-    'Server Rack'
+  OUTPUTS = [
+    Output.new('Living Room', 'A'),
+    Output.new('Bedroom', 'B'),
+    Output.new('Basement', 'C'),
+    Output.new('Server Rack', 'D')
   ]
-
   # No need to edit below this!
 
-
   # Haven't figured out how to query the mixer, so this will have to do
-  set :last_inputs, {
-    'A' => nil,
-    'B' => nil,
-    'C' => nil,
-    'D' => nil
-  }
+  set :last_inputs, { }
 
-
-  OFFSET_OUTPUT = %w(A B C D)
-  OFFSET_INPUT = %w(1 2 3 4)
   ENDING_BYTES = %w(d5 7b)
   HEX_STYLE = "%02x"
 
   get '/' do
     @last_inputs = settings.last_inputs
-    @inputs = INPUT_NAMES
-    @outputs = OUTPUT_NAMES
+    @inputs = INPUTS
+    @outputs = OUTPUTS
+    @column_class = column_class
     haml :index
   end
 
@@ -64,8 +80,10 @@ class HDMIControl < Sinatra::Base
     result = nil
 
     # If it's a known channel, convert. Otherwise use RAW
-    if OFFSET_OUTPUT.include?(output) && OFFSET_INPUT.include?(input)
-      result = (OFFSET_OUTPUT.index(output) * 4) + OFFSET_INPUT.index(input)
+    output_offset = find_offset(OUTPUTS, output)
+    input_offset = find_offset(INPUTS, input)
+    if output_offset != nil && input_offset != nil
+      result = (output_offset * 4) + input_offset
       # Remember what the input was
       settings.last_inputs[output] = input
     else
@@ -89,6 +107,14 @@ class HDMIControl < Sinatra::Base
       puts out.write(bytes)
       sleep 0.1
     end
+  end
+
+  def column_class
+    'col-md-' + (OUTPUTS.length > 4 ? 3 : 12 / OUTPUTS.length).to_s
+  end
+
+  def find_offset(haystack, needle)
+    haystack.index { |i| i.id === needle.to_s }
   end
 
 end

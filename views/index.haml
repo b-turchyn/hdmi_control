@@ -17,39 +17,11 @@
         .col-md-3
           = haml :button, locals: {input: 'Power', set: '10', html_class: 'btn-danger'}
       .row
-        .col-md-3
-          .panel.panel-default
-            .panel-heading
-              = @outputs[0]
-            .panel-body
-              = haml :button, locals: {input: @inputs[0], set: 'A1'}
-              = haml :button, locals: {input: @inputs[1], set: 'A2'}
-              = haml :button, locals: {input: @inputs[2], set: 'A3'}
-              = haml :button, locals: {input: @inputs[3], set: 'A4'}
-        .col-md-3
-          .panel.panel-default
-            .panel-heading
-              = @outputs[1]
-            .panel-body
-              = haml :button, locals: {input: @inputs[0], set: 'B1'}
-              = haml :button, locals: {input: @inputs[1], set: 'B2'}
-              = haml :button, locals: {input: @inputs[2], set: 'B3'}
-              = haml :button, locals: {input: @inputs[3], set: 'B4'}
-        .col-md-3
-          .panel.panel-default
-            .panel-heading
-              = @outputs[2]
-            .panel-body
-              = haml :button, locals: {input: @inputs[0], set: 'C1'}
-              = haml :button, locals: {input: @inputs[1], set: 'C2'}
-              = haml :button, locals: {input: @inputs[2], set: 'C3'}
-              = haml :button, locals: {input: @inputs[3], set: 'C4'}
-        .col-md-3
-          .panel.panel-default
-            .panel-heading
-              = @outputs[3]
-            .panel-body
-              = haml :button, locals: {input: @inputs[0], set: 'D1'}
-              = haml :button, locals: {input: @inputs[1], set: 'D2'}
-              = haml :button, locals: {input: @inputs[2], set: 'D3'}
-              = haml :button, locals: {input: @inputs[3], set: 'D4'}
+        - @outputs.each do |output|
+          %div{class: @column_class}
+            .panel.panel-default
+              .panel-heading
+                = output.name
+              .panel-body
+                - @inputs.each do |input|
+                  = haml :button, locals: {input: input.name, set: "#{output.id}#{input.id}"}
