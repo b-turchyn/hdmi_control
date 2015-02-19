@@ -1,0 +1,55 @@
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    %meta{'http-equiv' => 'X-UA-Compatible', content: 'IE=edge'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+
+    %link{href: "//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css", rel: "stylesheet"}
+    %script{src: "//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"}
+    %script{src: "//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"}
+
+    %title HDMI Control
+  %body
+    .container
+      %h1 HDMI Control
+      .row
+        .col-md-9
+        .col-md-3
+          = haml :button, locals: {input: 'Power', set: '10', html_class: 'btn-danger'}
+      .row
+        .col-md-3
+          .panel.panel-default
+            .panel-heading
+              = @outputs[0]
+            .panel-body
+              = haml :button, locals: {input: @inputs[0], set: 'A1'}
+              = haml :button, locals: {input: @inputs[1], set: 'A2'}
+              = haml :button, locals: {input: @inputs[2], set: 'A3'}
+              = haml :button, locals: {input: @inputs[3], set: 'A4'}
+        .col-md-3
+          .panel.panel-default
+            .panel-heading
+              = @outputs[1]
+            .panel-body
+              = haml :button, locals: {input: @inputs[0], set: 'B1'}
+              = haml :button, locals: {input: @inputs[1], set: 'B2'}
+              = haml :button, locals: {input: @inputs[2], set: 'B3'}
+              = haml :button, locals: {input: @inputs[3], set: 'B4'}
+        .col-md-3
+          .panel.panel-default
+            .panel-heading
+              = @outputs[2]
+            .panel-body
+              = haml :button, locals: {input: @inputs[0], set: 'C1'}
+              = haml :button, locals: {input: @inputs[1], set: 'C2'}
+              = haml :button, locals: {input: @inputs[2], set: 'C3'}
+              = haml :button, locals: {input: @inputs[3], set: 'C4'}
+        .col-md-3
+          .panel.panel-default
+            .panel-heading
+              = @outputs[3]
+            .panel-body
+              = haml :button, locals: {input: @inputs[0], set: 'D1'}
+              = haml :button, locals: {input: @inputs[1], set: 'D2'}
+              = haml :button, locals: {input: @inputs[2], set: 'D3'}
+              = haml :button, locals: {input: @inputs[3], set: 'D4'}

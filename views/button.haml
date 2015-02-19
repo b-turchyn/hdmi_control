@@ -1,0 +1,4 @@
+- html_class ||= ( @last_inputs[set[0]] === set[1] ? 'btn-success' : 'btn-primary' )
+%form{ :action => "/change/#{set}", :method => "post"}
+  %button{type: 'submit', class: "btn #{html_class} btn-block"}
+    = input
